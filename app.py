@@ -6,16 +6,20 @@ import pandas as pd
 app = Flask(__name__)
 
 # Load model and preprocessing tools
-model = joblib.load("random_forest_segment_model.pkl")
+model = joblib.load("logistic_regression_segment_model.pkl")
 scaler = joblib.load("scaler_for_models.pkl")
-label_encoder = joblib.load("label_encoder_for_segments.pkl")
 
-# Define features expected in input
-FEATURES = [
-    'SEC', 'Affluence Index', 'AGE', 'SEX', 'EDU',
-    'Total Volume', 'No. of  Trans', 'Value', 'Avg. Price',
-    'Pur Vol No Promo - %', 'Pur Vol Promo 6 %', 'Pur Vol Other Promo %'
-]
+
+# Define demographic features as inputs
+FEATURES = ['SEC', 'FEH', 'MT', 'SEX', 'AGE', 'EDU', 'HS', 'CHILD', 'CS', 'Affluence Index']
+
+# Mapping cluster index to segment name
+cluster_names = {
+    0: "Heavy Buyers / Variety Seekers",
+    1: "Switchers / Promo Shoppers",
+    2: "Loyalists"
+}
+
 
 @app.route("/")
 def home():
@@ -39,7 +43,7 @@ def predict_segment():
 
         # Predict
         cluster_idx = model.predict(scaled_input)[0]
-        segment = label_encoder.inverse_transform([cluster_idx])[0]
+        segment = cluster_names.get(cluster_idx, "Unknown Segment")
 
         # Return result
         if request.content_type == 'application/json':
@@ -51,4 +55,5 @@ def predict_segment():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    #app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080)
