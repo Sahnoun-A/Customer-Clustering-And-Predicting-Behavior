@@ -71,4 +71,4 @@ were key drivers
 ## 10. Resources
 - 🗃 [**GitHub Repo**](https://github.com/Sahnoun-A/Customer-Clustering-And-Predicting-Behavior)
 - 📘 [**Kaggle Notebook**](https://www.kaggle.com/code/abdelkabirsahnoun/customer-clustering-and-predicting-behavior)
-- 🌐 [**Flask App Demo**](http://ec2-18-216-125-128.us-east-2.compute.amazonaws.com:8080)
+- 🌐 [**Flask App Demo**](http://3.149.15.43:8080)
